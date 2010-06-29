@@ -1,0 +1,84 @@
+<h1>{{title}}</h1>
+<form action='{{action}}' method='post'>
+    <fieldset>
+        <legend>Details</legend>
+        <dl>
+            <dt><label for='name'>Name</label></dt>
+            <dd><input id='name' type='text' size='30' name='person[name]' value='{{name}}' /></dd>
+            <dt><label for='page'>Page</label></dt>
+            <dd><input id='page' type='text' size='30' name='person[page]' value='{{page}}' /></dd>
+         </dl>
+    </fieldset>
+    <fieldset id='numbers'>
+        <legend>Phone Numbers</legend>
+        <table>
+            <tr><th>Name</th><th>Number</th></tr>
+            {{#numbers}}
+            <tr>
+            <td><input type='text' size='20' name='person[numbers][][name]' value='{{name}}' /></td>
+            <td><input type='text' size='30' name='person[numbers][][number]' value='{{number}}' /></td>
+            </tr>
+            {{/numbers}}
+            <tr>
+            <td><input type='text' size='20' name='person[numbers][][name]' value='' /></td>
+            <td><input type='text' size='30' name='person[numbers][][number]' value='' /></td>
+            </tr>
+        </table>
+        <a id='add_number' href='#'>Add Number</a>
+    </fieldset>
+    <fieldset id='emails'>
+        <legend>Emails</legend>
+        <table>
+            <tr><th>Name</th><th>Email</th></tr>
+            {{#emails}}
+            <tr>
+            <td><input type='text' size='20' name='person[emails][][name]' value='{{name}}' /></td>
+            <td><input type='email' size='30' name='person[emails][][email]' value='{{email}}' /></td>
+            </tr>
+            {{/emails}}
+            <tr>
+            <td><input type='text' size='20' name='person[emails][][name]' value='' /></td>
+            <td><input type='email' size='30' name='person[emails][][email]' value='' /></td>
+            </tr>
+        </table>
+        <a id='add_email' href='#'>Add Email</a>
+    </fieldset>
+    <fieldset id='addresses'>
+        <legend>Addresses</legend>
+        <ul>
+            {{#adresses}}
+            <li>
+            <dl>
+                <dt>Name</dt>
+                <dd><input type='text' size='20' name='person[addresses][][name]' value='{{name}}' /></dd>
+                <dt>Address</dt>
+                <dd>
+                <textarea rows='5' cols='30' name='person[addresses][][address]'>{{address}}</textarea>
+                </dd>
+                <dt>Postcode</dt>
+                <dd><input type='text' size='10' name='person[addresses][][postcode]' value='{{postcode}}' /></dd>
+                <dt>Country</dt>
+                <dd><input type='text' size='10' name='person[addresses][][country]' value='{{country}}' /></dd>
+            </dl>
+            </li>
+            {{/adresses}}
+            <li>
+            <dl>
+                <dt>Name</dt>
+                <dd><input type='text' size='20' name='person[addresses][][name]' value='' /></dd>
+                <dt>Address</dt>
+                <dd>
+                <textarea rows='5' cols='30' name='person[addresses][][address]'></textarea>
+                </dd>
+                <dt>Postcode</dt>
+                <dd><input type='text' size='10' name='person[addresses][][postcode]' value='' /></dd>
+                <dt>Country</dt>
+                <dd><input type='text' size='10' name='person[addresses][][country]' value='' /></dd>
+            </dl>
+            </li>
+        </ul>
+        <a id='add_address' href='#'>Add Address</a>
+    </fieldset>
+    <input type='hidden' name='foo' value='bar' />
+    <input type='submit' value='{{button_text}}' />
+</form>
