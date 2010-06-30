@@ -2,7 +2,7 @@
 <form action='{{action}}' method='post'>
     <fieldset>
         <legend>Details</legend>
-        <dl>
+        <dl class='address-list'>
             <dt><label for='name'>Name</label></dt>
             <dd><input id='name' type='text' size='30' name='person[name]' value='{{name}}' /></dd>
             <dt><label for='page'>Page</label></dt>
@@ -48,7 +48,7 @@
         <ul>
             {{#adresses}}
             <li>
-            <dl>
+            <dl class='address-list'>
                 <dt>Name</dt>
                 <dd><input type='text' size='20' name='person[addresses][][name]' value='{{name}}' /></dd>
                 <dt>Address</dt>
@@ -63,7 +63,7 @@
             </li>
             {{/adresses}}
             <li>
-            <dl>
+            <dl class='address-list'>
                 <dt>Name</dt>
                 <dd><input type='text' size='20' name='person[addresses][][name]' value='' /></dd>
                 <dt>Address</dt>
