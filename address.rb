@@ -16,7 +16,6 @@ helpers do
   end
 
   def clean_params(param_set=params)
-    p param_set
     case param_set
     when Array
       param_set.each do |v|
