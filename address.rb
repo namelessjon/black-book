@@ -48,6 +48,12 @@ get '/new' do
   mustache :edit
 end
 
+get '/:page' do |page|
+  @person = addresses.find_one(:page => page)
+  not_found unless @person
+  mustache :show
+end
+
 get '/:page/edit' do |page|
   @person = addresses.find_one(:page => page) || {'page' => page}
   mustache :edit

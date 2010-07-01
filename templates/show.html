@@ -1,0 +1,33 @@
+<h1>{{name}}</h1>
+
+<h2>Numbers</h2>
+
+<dl class='address-list'>
+{{#numbers}}
+<dt>{{name}}</dt><dd>{{number}}</dd>
+{{/numbers}}
+</dl>
+
+<h2>Emails</h2>
+
+<dl class='address-list'>
+{{#emails}}
+<dt>{{name}}</dt><dd>{{email}}</dd>
+{{/emails}}
+</dl>
+
+<h2>Addresses</h2>
+
+{{#addresses}}
+<h3>{{name}}</h3>
+<dl class='address-list'>
+    <dt>Address</dt>
+    {{#lines}}
+    <dd>{{line}}</dd>
+    {{/lines}}
+    <dt>Postcode</dt>
+    <dd>{{postcode}}</dd>
+    <dt>Country</dt>
+    <dd>{{country}}</dd>
+</dl>
+{{/addresses}}
