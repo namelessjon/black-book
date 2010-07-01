@@ -52,10 +52,8 @@ get '/new' do
   mustache :edit
 end
 
-get '/:page/edit' do
-  @person = addresses.find_one(:page => params['page'])
-  not_found unless @person
-  p @person
+get '/:page/edit' do |page|
+  @person = addresses.find_one(:page => page) || {'page' => page}
   mustache :edit
 end
 
