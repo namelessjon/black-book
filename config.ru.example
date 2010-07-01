@@ -1,0 +1,6 @@
+require 'app'
+
+BlackBook::App.set :mongo, Mongo::Connection.new.db('bb')
+BlackBook::App.set :root, ::File.dirname(__FILE__)
+
+run BlackBook::App
