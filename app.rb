@@ -2,14 +2,19 @@
 # Jonathan D. Stott <jonathan.stott@gmail.com>
 require 'sinatra/base'
 require 'mongo'
-require 'views'
+require 'black_book/views'
 
 
 module BlackBook
   class App < ::Sinatra::Base
 
     register Mustache::Sinatra
-    set :mustache, { :templates => 'templates' }
+    set :mustache, proc {
+      {
+        :namespace => ::BlackBook,
+        :templates => ::File.join(self.root, 'black_book', 'templates'),
+      }
+    }
 
     helpers do
       def addresses
