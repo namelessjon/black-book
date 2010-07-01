@@ -15,6 +15,7 @@ module BlackBook
         :templates => ::File.join(self.root, 'black_book', 'templates'),
       }
     }
+    set :name, 'BlackBook'
 
     helpers do
       def addresses

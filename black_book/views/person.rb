@@ -4,7 +4,7 @@ module BlackBook
   module Views
     class Person < Layout
       def title
-        "#{name} - Addresses"
+        "#{name} - #{super}"
       end
 
       def name

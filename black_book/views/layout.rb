@@ -6,7 +6,7 @@ module BlackBook
       self.template_extension = 'html'
 
       def title
-        'Addresses!'
+        BlackBook::App.name
       end
     end
   end
