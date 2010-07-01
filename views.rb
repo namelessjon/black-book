@@ -3,4 +3,5 @@
 require 'mustache/sinatra'
 require 'views/layout'
 require 'views/index'
+require 'views/person'
 require 'views/edit'
