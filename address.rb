@@ -4,10 +4,6 @@ require 'sinatra'
 require 'mongo'
 require 'views'
 
-configure do
-  DB = Mongo::Connection.new('10.0.0.9').db('jon')
-end
-
 set :mustache, { :templates => 'templates' }
 
 helpers do
