@@ -12,7 +12,7 @@ module BlackBook
     set :mustache, proc {
       {
         :namespace => ::BlackBook,
-        :templates => ::File.join(self.root, 'black_book', 'templates'),
+        :templates => ::File.join(self.root || '.', 'black_book', 'templates'),
       }
     }
     set :name, 'BlackBook'
