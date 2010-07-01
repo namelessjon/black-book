@@ -3,8 +3,8 @@
 module BlackBook
   module Views
     class Index < Layout
-      def addresses
-        @addresses
+      def people
+        @people
       end
     end
   end

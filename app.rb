@@ -16,10 +16,11 @@ module BlackBook
       }
     }
     set :name, 'BlackBook'
+    set :collection, 'people'
 
     helpers do
-      def addresses
-        settings.mongo['addresses']
+      def people
+        settings.mongo[settings.collection]
       end
 
       def clean_params(param_set=params)
@@ -50,7 +51,7 @@ module BlackBook
     end
 
     get '/' do
-      @addresses = addresses.find({}, :fields => [:name, :page], :sort => [[:page, :asc]]).to_a
+      @people = people.find({}, :fields => [:name, :page], :sort => [[:page, :asc]]).to_a
       mustache :index
     end
 
@@ -60,13 +61,13 @@ module BlackBook
     end
 
     get '/:page' do |page|
-      @person = addresses.find_one(:page => page)
+      @person = people.find_one(:page => page)
       not_found unless @person
       mustache :show
     end
 
     get '/:page/edit' do |page|
-      @person = addresses.find_one(:page => page) || {'page' => page}
+      @person = people.find_one(:page => page) || {'page' => page}
       mustache :edit
     end
 
@@ -78,10 +79,10 @@ module BlackBook
       params['person']['page'] = page
       clean_params
 
-      @person = addresses.find_one({:page => page}, :fields => [:_id]) || {}
+      @person = people.find_one({:page => page}, :fields => [:_id]) || {}
       @person.merge!(params['person'])
 
-      addresses.save(@person)
+      people.save(@person)
       redirect "/#{page}"
     end
 
@@ -92,10 +93,10 @@ module BlackBook
       params['person'].delete_if { |k,v| !%w|name page numbers emails addresses|.include?(k) }
       clean_params
 
-      @person = addresses.find_one({:page => person['page']}, :fields => [:_id]) || {}
+      @person = people.find_one({:page => person['page']}, :fields => [:_id]) || {}
       @person.merge!(params['person'])
 
-      addresses.save(@person)
+      people.save(@person)
       redirect "/#{person['page']}"
     end
   end
