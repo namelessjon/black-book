@@ -10,7 +10,6 @@ TODO
 
 * Add some javascript (maybe allow inline editing?).
 * Add some tests, I guess.
-* Improve property white-listing.
 * Add faculty for storing correspondence, e.g. scans of letters in GridFS, and transcripts.
 * Re-write using [Express](http://expressjs.com/ "High performance, high class web development for Node.js")
 
