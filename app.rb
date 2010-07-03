@@ -2,6 +2,7 @@
 # Jonathan D. Stott <jonathan.stott@gmail.com>
 require 'sinatra/base'
 require 'mongo'
+require 'hashidator'
 require 'black_book/views'
 
 
@@ -17,6 +18,14 @@ module BlackBook
     }
     set :name, 'BlackBook'
     set :collection, 'people'
+
+    set :validator, Hashidator.new(
+      'name'       => String,
+      'page'       => String,
+      'numbers'    => proc { |v| v.nil? ? true : [{'name' => String, 'number' => String } ] },
+      'emails'     => proc { |v| v.nil? ? true : [{'name' => String, 'email'  => String } ] },
+      'addresses'  => proc { |v| v.nil? ? true : [{'name' => String, 'address' => String, 'postcode' => String, 'country' => String  }  ] },
+    )
 
     helpers do
       def people
@@ -79,11 +88,15 @@ module BlackBook
       params['person']['page'] = page
       clean_params
 
-      @person = people.find_one({:page => page}, :fields => [:_id]) || {}
+      @person = people.find_one({:page => page}) || {}
       @person.merge!(params['person'])
 
-      people.save(@person)
-      redirect "/#{page}"
+      if settings.validator.validate(@person)
+        people.save(@person)
+        redirect "/#{page}"
+      else
+        mustache :edit
+      end
     end
 
     post '/' do
@@ -93,11 +106,15 @@ module BlackBook
       params['person'].delete_if { |k,v| !%w|name page numbers emails addresses|.include?(k) }
       clean_params
 
-      @person = people.find_one({:page => person['page']}, :fields => [:_id]) || {}
+      @person = people.find_one({:page => params['page']}, :fields => [:_id]) || {}
       @person.merge!(params['person'])
 
-      people.save(@person)
-      redirect "/#{person['page']}"
+      if settings.validator.validate(@person)
+        people.save(@person)
+        redirect "/#{@person['page']}"
+      else
+        mustache :edit
+      end
     end
   end
 end
