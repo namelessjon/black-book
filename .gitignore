@@ -1,1 +1,2 @@
 config.ru
+.baretest_id*
