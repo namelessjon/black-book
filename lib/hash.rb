@@ -40,16 +40,18 @@ class DefinedHash < Hash
       value = attributes[name] if attributes.has_key?(name)
       value = attributes[name.to_s] if attributes.has_key?(name.to_s)
       if value
+        value = (Array === value) ? value : [value]
         case type.first
         when Hash
-          hash[name] = []
-          value = (Array === value) ? value : [value]
+          array = []
           value.each do |v|
-            hash[name] << {}
-            add_properties(type.first, hash[name].last, v)
+            tmp = {}
+            add_properties(type.first, tmp, v)
+            array << tmp unless tmp.empty?
           end
+          hash[name] = array unless array.empty?
         else
-          hash[name] = (Array === value) ? value : [value]
+          hash[name] = value
         end
       end
     else
