@@ -8,7 +8,7 @@ module BlackBook
       end
 
       def new?
-        !!@person['_id']
+        !!@person[:_id]
       end
 
       def new_or_edit

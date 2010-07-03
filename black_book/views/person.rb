@@ -8,23 +8,23 @@ module BlackBook
       end
 
       def name
-        @person['name']
+        @person[:name]
       end
 
       def page
-        @person['page']
+        @person[:page]
       end
 
       def emails
-        @person['emails']
+        @person[:emails]
       end
 
       def addresses
-        @person['addresses']
+        @person[:addresses]
       end
 
       def numbers
-        @person['numbers']
+        @person[:numbers]
       end
     end
   end

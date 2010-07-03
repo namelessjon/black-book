@@ -4,6 +4,17 @@ require 'sinatra/base'
 require 'mongo'
 require 'hashidator'
 require 'black_book/views'
+require 'lib/hash'
+
+
+class Person < DefinedHash
+  property :_id,        BSON::ObjectID, :optional => true
+  property :name,       String
+  property :page,       String
+  property :numbers,    [{:name => String, :number => String }], :optional => true
+  property :emails,     [{:name => String, :email => String }], :optional => true
+  property :addresses,  [{:name => String, :address => String, :postcode => String, :country => String  }], :optional => true
+end
 
 
 module BlackBook
@@ -18,14 +29,6 @@ module BlackBook
     }
     set :name, 'BlackBook'
     set :collection, 'people'
-
-    set :validator, Hashidator.new(
-      'name'       => String,
-      'page'       => String,
-      'numbers'    => proc { |v| v.nil? ? true : [{'name' => String, 'number' => String } ] },
-      'emails'     => proc { |v| v.nil? ? true : [{'name' => String, 'email'  => String } ] },
-      'addresses'  => proc { |v| v.nil? ? true : [{'name' => String, 'address' => String, 'postcode' => String, 'country' => String  }  ] },
-    )
 
     helpers do
       def people
@@ -70,28 +73,26 @@ module BlackBook
     end
 
     get '/:page' do |page|
-      @person = people.find_one(:page => page)
-      not_found unless @person
+      person = people.find_one(:page => page)
+      not_found unless person
+      @person = Person.new(person)
       mustache :show
     end
 
     get '/:page/edit' do |page|
-      @person = people.find_one(:page => page) || {'page' => page}
+      @person = Person.new(people.find_one(:page => page) || {'page' => page})
       mustache :edit
     end
 
     post '/:page' do |page|
       throw :halt, [400, "Need a person in there to hold addresses"] unless params['person'] and Hash === params['person']
       # clean up the params
-      params.delete_if { |k,v| "person" != k }
-      params['person'].delete_if { |k,v| !%w|name numbers emails addresses|.include?(k) }
-      params['person']['page'] = page
       clean_params
 
-      @person = people.find_one({:page => page}) || {}
+      @person = Person.new(people.find_one({:page => page}) || {})
       @person.merge!(params['person'])
 
-      if settings.validator.validate(@person)
+      if @person.valid?
         people.save(@person)
         redirect "/#{page}"
       else
@@ -102,16 +103,15 @@ module BlackBook
     post '/' do
       throw :halt, [400, "Need a person in there to hold addresses"] unless params['person'] and Hash === params['person']
       # clean up the params
-      params.delete_if { |k,v| "person" != k }
-      params['person'].delete_if { |k,v| !%w|name page numbers emails addresses|.include?(k) }
       clean_params
 
-      @person = people.find_one({:page => params['page']}, :fields => [:_id]) || {}
+      @person = Person.new(people.find_one({:page => params['page']}, :fields => [:_id]) || {})
       @person.merge!(params['person'])
 
-      if settings.validator.validate(@person)
-        people.save(@person)
-        redirect "/#{@person['page']}"
+      if @person.valid?
+        p @person
+        people.save(@person.to_hash)
+        redirect "/#{@person[:page]}"
       else
         mustache :edit
       end
