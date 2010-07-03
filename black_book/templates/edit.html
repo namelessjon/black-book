@@ -11,8 +11,11 @@
     </fieldset>
     <fieldset id='numbers'>
         <legend>Phone Numbers</legend>
-        <table>
-            <tr><th>Name</th><th>Number</th></tr>
+        <table class='edit-table'>
+            <thead>
+                <tr><th>Name</th><th>Number</th></tr>
+            </thead>
+            <tbody>
             {{#numbers}}
             <tr>
             <td><input type='text' size='20' name='person[numbers][][name]' value='{{name}}' /></td>
@@ -23,13 +26,16 @@
             <td><input type='text' size='20' name='person[numbers][][name]' value='' /></td>
             <td><input type='text' size='30' name='person[numbers][][number]' value='' /></td>
             </tr>
+            </tbody>
         </table>
-        <a id='add_number' href='#'>Add Number</a>
     </fieldset>
     <fieldset id='emails'>
         <legend>Emails</legend>
-        <table>
+        <table class='edit-table'>
+            <thead>
             <tr><th>Name</th><th>Email</th></tr>
+            </thead>
+            <tbody>
             {{#emails}}
             <tr>
             <td><input type='text' size='20' name='person[emails][][name]' value='{{name}}' /></td>
@@ -40,12 +46,12 @@
             <td><input type='text' size='20' name='person[emails][][name]' value='' /></td>
             <td><input type='email' size='30' name='person[emails][][email]' value='' /></td>
             </tr>
+            </tbody>
         </table>
-        <a id='add_email' href='#'>Add Email</a>
     </fieldset>
     <fieldset id='addresses'>
         <legend>Addresses</legend>
-        <ul>
+        <ul class='edit-list'>
             {{#addresses}}
             <li>
             <dl class='address-list'>
@@ -77,8 +83,6 @@
             </dl>
             </li>
         </ul>
-        <a id='add_address' href='#'>Add Address</a>
     </fieldset>
-    <input type='hidden' name='foo' value='bar' />
     <input type='submit' value='{{button_text}}' />
 </form>
